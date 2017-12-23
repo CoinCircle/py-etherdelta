@@ -12,13 +12,12 @@ from etherdelta import etherdeltaclient as ed
 client = ed.EtherDeltaClient()
 
 # Get Buy Order Book
-token = "BAT"
+token = "UKG"
 orders = client.get_buy_orderbook(token)
 
 print(orders)
 
 # Make a Trade
-token = "UKG"
 order_id = "959690a3d665ce5e77c76df4273170bae5e57f990436d4b909e9656f64e221f7_buy"
 order = client.get_order(token, order_id)
 order = order.result
