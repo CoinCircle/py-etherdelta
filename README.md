@@ -1,4 +1,4 @@
-# EtherDelta
+# EtherDelta Python Client
 
 > Python wrapper for interacting with the [EtherDelta](https://etherdelta.com/) API and Smart Contracts.
 
