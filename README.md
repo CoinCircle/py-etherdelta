@@ -2,7 +2,7 @@
 
 > Python wrapper for interacting with the [EtherDelta](https://etherdelta.com/) API and Smart Contracts.
 
-Note: This is a fork of [tomvanbraeckel/etherdeltaclientservice.py](https://github.com/tomvanbraeckel/etherdeltaclientservice.py)
+Note: This is a fork of [this client](https://github.com/tomvanbraeckel/etherdeltaclientservice.py).
 
 ## Usage
 
