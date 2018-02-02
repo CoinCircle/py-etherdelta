@@ -34,8 +34,18 @@ Get account ETH balance on EtherDelta
 ```python
 client = etherdelta.Client()
 account = '0x85E4B84D784eE9eEB7489F0B0c66B343AF2a0BE5'
-bal = client.get_etherdelta_balance(account)
+bal = client.get_etherdelta_eth_balance(account)
 print(bal) # 0.060271757614136072
+```
+
+Get account token balance on EtherDelta
+
+```python
+client = etherdelta.Client()
+account = '0x85E4B84D784eE9eEB7489F0B0c66B343AF2a0BE5'
+symbol = 'BAT'
+bal = client.get_etherdelta_token_balance(account, symbol)
+print(bal) # 0
 ```
 
 Get highest block number

@@ -71,7 +71,7 @@ class Client:
         balance = contractToken.call().balanceOf(account)
         return web3.fromWei(balance, 'ether')
 
-    def get_etherdelta_balance(self, account):
+    def get_etherdelta_eth_balance(self, account):
         """
         Returns the ETH balance in EtherDelta of an account
 
@@ -83,6 +83,24 @@ class Client:
         account = Web3.toChecksumAddress(account)
         balance = self.contractEtherDelta.call().balanceOf(token="0x0000000000000000000000000000000000000000", user=account)
         return web3.fromWei(balance, 'ether')
+
+    def get_etherdelta_token_balance(self, account, symbol):
+        """
+        Returns the token balance in EtherDelta of an account
+
+        :param account: account
+        :type account: str
+        :param symbol: token symbol
+        :type symbol: str
+        :return: balance
+        :rtype: int
+        """
+        account = Web3.toChecksumAddress(account)
+        token_addr = self.get_token_address(symbol)
+        balance = 0
+        if token_addr:
+            balance = self.contractEtherDelta.call().balanceOf(token=token_addr, user=account)
+        return w3.fromWei(balance, 'ether')
 
     def get_token_address(self, symbol):
         """
