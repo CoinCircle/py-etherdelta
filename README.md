@@ -4,7 +4,11 @@
 
 This was originally a fork of [this client](https://github.com/tomvanbraeckel/etherdeltaclientservice.py).
 
-## Examples
+## Documentation
+
+[./docs.md][Documentation]
+
+### Examples
 
 Get account ETH balance
 
@@ -34,6 +38,54 @@ bal = client.get_etherdelta_balance(account)
 print(bal) # 0.060271757614136072
 ```
 
+Get highest block number
+
+```python
+client = etherdelta.Client()
+number = client.get_block_number()
+print(number) # 5018972
+```
+
+Get token address of token symbol
+
+```python
+client = etherdelta.Client()
+symbol = 'BAT'
+token_addr = client.get_token_address(symbol)
+print(token_addr) # 0x0d8775f648430679a709e98d2b0cb6250d2887ef
+```
+
+Get ticker data for a token
+
+```python
+client = etherdelta.Client()
+symbol = 'BAT'
+ticker = client.get_ticker(symbol)
+print(ticker.result)
+# {'quoteVolume': 2603.107, 'bid': 0.000421, 'baseVolume': 1.135, 'tokenAddr': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 'last': 0.000477839, 'ask': 0.000477838, 'percentChange': 0.0607}
+```
+
+Get all orders for token
+
+```python
+client = etherdelta.Client()
+symbol = 'BAT'
+orders = client.get_orders(symbol)
+print(orders.result)
+# {'buys': [{'s': '0x36728e74f49ed1ef7f85e603c8ea4b149f5c427b9f0bfc6bc072ad780486dd7b', 'user': '0x0f8aa39a58adcc3df98d826ac798ab837cc0833c', 'ethAvailableVolume': '6755.671999999999', 'amount': '6755671999999999213568', 'availableVolumeBase': '2876979662150982000', 'tokenGive': '0x0000000000000000000000000000000000000000', 'expires': '5019005', 'amountFilled': None, 'updated': '2018-02-02T19:42:59.089Z', 'nonce': '4500026492', 'id': '9f365bafc972b2e21ed52569075647c4778385c0ce9283cb16630df78ed99f72_buy', 'availableVolume': '6.755671999999999213568e+21', 'r': '0xa3ca2a8fb3773271b073bc45a1b81138d8bf95c82ca877bf407ec3250a934b2a', 'tokenGet': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 'amountGet': '6755671999999999213568', 'v': 28, 'price': '0.00042586135948444247', 'ethAvailableVolumeBase': '2.876979662150982', 'amountGive': '2876979662150982144'}}
+```
+
+Get order from ID
+
+```python
+client = etherdelta.Client()
+symbol = 'BAT'
+order_id = '6e40fdfc81d58a70405431599a1d5c76d502b3cf02e1936bc36f1e8583c0d2b9_sell'
+order = client.get_order(symbol, order_id)
+print(order.result)
+# {'ethAvailableVolumeBase': '4.495', 'availableVolume': '100000000000000', 'expires': '1004639969', 'user': '0x2C34973C4c46f13534C81A893645F347B65c89d6', 'amount': '-100000000000000', 'r': '0xff456276e336d37bee3e59f9c8e46e9dffa4dea73dfe85dcad73df543ebc9ec2', 'price': '44950', 'nonce': '1384390526', 'v': 27, 'id': '6e40fdfc81d58a70405431599a1d5c76d502b3cf02e1936bc36f1e8583c0d2b9_sell', 'tokenGive': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 'updated': '2017-11-28T21:15:11.423Z', 'availableVolumeBase': '4495000000000000000', 'amountFilled': None, 'ethAvailableVolume': '0.0001', 'amountGive': '100000000000000', 's': '0x166c467778a5f89aa3d9283eca77d5e4d857a6de365da9f25b8ec30446ae08e5', 'tokenGet': '0x0000000000000000000000000000000000000000', 'amountGet': '4495000000000000000'}
+```
+
 Get buy (bids) orderbook for a token
 
 ```python
@@ -54,24 +106,7 @@ print(orders.result)
 # [{'user': '0x955051F2cF3bA245ae8Ee9057458836eAe3b1FeC', 'expires': '5018717', 'amount': '-2.1572374771676692e+21', 'ethAvailableVolumeBase': '1.0308100416148447', 'tokenGet': '0x0000000000000000000000000000000000000000', 'ethAvailableVolume': '2157.237477167669', 'updated': '2018-02-02T18:15:21.791Z', 'price': '0.000477838', 'r': '0xe3129e0ec2110063d16d84ac4770f402555614d077b6cfd1ba9d701839f0691d', 'availableVolumeBase': '1030810041614844700', 'v': 28, 'availableVolume': '2.15723747716766907792023752118211285330018e+21', 'amountGet': '1030810041614844700', 'id': 'b66abf9a645756ef32aff132d6dde19ad7d7b2c5c026475c60140da266186a01_sell', 'nonce': '26698014251852476', 'tokenGive': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 's': '0x38a06acd697cb5cf91f9c8d19389904331b1014a0713a11f775f632d7e7e4dc3', 'amountFilled': None, 'amountGive': '2.157237477167669064104e+21'}]
 ```
 
-Get ticker data for a token
-
-```python
-client = etherdelta.Client()
-symbol = 'BAT'
-ticker = client.get_ticker(symbol)
-print(ticker.result)
-# {'quoteVolume': 2603.107, 'bid': 0.000421, 'baseVolume': 1.135, 'tokenAddr': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 'last': 0.000477839, 'ask': 0.000477838, 'percentChange': 0.0607}
-```
-
-Get token address of token symbol
-
-```python
-client = etherdelta.Client()
-symbol = 'BAT'
-token_addr = client.get_token_address(symbol)
-print(token_addr) # 0x0d8775f648430679a709e98d2b0cb6250d2887ef
-```
+Get amount filled for an order
 
 ```python
 def getAmountFilled(symbol, order_id):
@@ -90,36 +125,6 @@ symbol = 'BAT'
 order_id = '6e40fdfc81d58a70405431599a1d5c76d502b3cf02e1936bc36f1e8583c0d2b9_sell'
 volume = client.get_available_volume(symbol, order_id)
 print(volume) # 4495000000000000000
-```
-
-Get highest block number
-
-```python
-client = etherdelta.Client()
-number = client.get_block_number()
-print(number) # 5018972
-```
-
-Get all orders for token
-
-
-```python
-client = etherdelta.Client()
-symbol = 'BAT'
-orders = client.get_orders(symbol)
-print(orders.result)
-# {'buys': [{'s': '0x36728e74f49ed1ef7f85e603c8ea4b149f5c427b9f0bfc6bc072ad780486dd7b', 'user': '0x0f8aa39a58adcc3df98d826ac798ab837cc0833c', 'ethAvailableVolume': '6755.671999999999', 'amount': '6755671999999999213568', 'availableVolumeBase': '2876979662150982000', 'tokenGive': '0x0000000000000000000000000000000000000000', 'expires': '5019005', 'amountFilled': None, 'updated': '2018-02-02T19:42:59.089Z', 'nonce': '4500026492', 'id': '9f365bafc972b2e21ed52569075647c4778385c0ce9283cb16630df78ed99f72_buy', 'availableVolume': '6.755671999999999213568e+21', 'r': '0xa3ca2a8fb3773271b073bc45a1b81138d8bf95c82ca877bf407ec3250a934b2a', 'tokenGet': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 'amountGet': '6755671999999999213568', 'v': 28, 'price': '0.00042586135948444247', 'ethAvailableVolumeBase': '2.876979662150982', 'amountGive': '2876979662150982144'}}
-```
-
-Get order from ID
-
-```python
-client = etherdelta.Client()
-symbol = 'BAT'
-order_id = '6e40fdfc81d58a70405431599a1d5c76d502b3cf02e1936bc36f1e8583c0d2b9_sell'
-order = client.get_order(symbol, order_id)
-print(order.result)
-# {'ethAvailableVolumeBase': '4.495', 'availableVolume': '100000000000000', 'expires': '1004639969', 'user': '0x2C34973C4c46f13534C81A893645F347B65c89d6', 'amount': '-100000000000000', 'r': '0xff456276e336d37bee3e59f9c8e46e9dffa4dea73dfe85dcad73df543ebc9ec2', 'price': '44950', 'nonce': '1384390526', 'v': 27, 'id': '6e40fdfc81d58a70405431599a1d5c76d502b3cf02e1936bc36f1e8583c0d2b9_sell', 'tokenGive': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 'updated': '2017-11-28T21:15:11.423Z', 'availableVolumeBase': '4495000000000000000', 'amountFilled': None, 'ethAvailableVolume': '0.0001', 'amountGive': '100000000000000', 's': '0x166c467778a5f89aa3d9283eca77d5e4d857a6de365da9f25b8ec30446ae08e5', 'tokenGet': '0x0000000000000000000000000000000000000000', 'amountGet': '4495000000000000000'}
 ```
 
 Make a trade
