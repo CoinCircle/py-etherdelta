@@ -114,7 +114,7 @@ client = etherdelta.Client()
 symbol = 'BAT'
 order_id = '6e40fdfc81d58a70405431599a1d5c76d502b3cf02e1936bc36f1e8583c0d2b9_sell'
 filled = client.get_amount_filled(symbol, order_id)
-print(filled)
+print(filled) # 0
 ```
 
 Get available volume of an order
