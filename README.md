@@ -4,6 +4,12 @@
 
 This was originally a fork of [this client](https://github.com/tomvanbraeckel/etherdeltaclientservice.py).
 
+# Install
+
+```bash
+pip install etherdelta
+```
+
 ## Documentation
 
 [Documentation](./DOC.md)
