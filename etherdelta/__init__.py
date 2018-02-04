@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-__version__ = "1.0"
+__version__ = '1.0'
 
 import hashlib
 import websocket
@@ -33,10 +33,8 @@ class Client:
         with open(os.path.join(os.path.dirname(__file__), '../contracts/token.json'), 'r') as token_abi_definition:
             token_abi = json.load(token_abi_definition)
         self.token_abi = token_abi
-
         global addressEtherDelta
         addressEtherDelta = Web3.toChecksumAddress(addressEtherDelta)
-
         with open(os.path.join(os.path.dirname(__file__), '../contracts/etherdelta.json'), 'r') as abi_definition:
             abiEtherDelta = json.load(abi_definition)
         self.contractEtherDelta = w3.eth.contract(address=addressEtherDelta, abi=abiEtherDelta)
@@ -81,7 +79,7 @@ class Client:
         :rtype: int
         """
         account = Web3.toChecksumAddress(account)
-        balance = self.contractEtherDelta.call().balanceOf(token="0x0000000000000000000000000000000000000000", user=account)
+        balance = self.contractEtherDelta.call().balanceOf(token='0x0000000000000000000000000000000000000000', user=account)
         return web3.fromWei(balance, 'ether')
 
     def get_etherdelta_token_balance(self, account, symbol):
@@ -142,7 +140,7 @@ class Client:
         tokenAddr = self.get_token_address(symbol)
         if tokenAddr:
             emitMessage = '42["getMarket",{"token":"' + tokenAddr + '","user":""}]'
-            self.listen_once_and_close("getMarket", emitMessage, "market", callback)
+            self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         else:
             d.callback({})
         return d
@@ -175,7 +173,7 @@ class Client:
 
         tokenAddr = self.get_token_address(symbol)
         emitMessage = '42["getMarket",{"token":"' + tokenAddr + '","user":""}]'
-        self.listen_once_and_close("getMarket", emitMessage, "market", callback)
+        self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         return d
 
     def get_sell_orderbook(self, symbol):
@@ -195,10 +193,9 @@ class Client:
                 if msg['orders']['sells']:
                     result = msg['orders']['sells']
             d.callback(result)
-
         tokenAddr = self.get_token_address(symbol)
         emitMessage = '42["getMarket",{"token":"' + tokenAddr + '","user":""}]'
-        self.listen_once_and_close("getMarket", emitMessage, "market", callback)
+        self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         return d
 
     def get_buy_orderbook(self, symbol):
@@ -218,10 +215,9 @@ class Client:
                 if msg['orders']['buys']:
                     result = msg['orders']['buys']
             d.callback(result)
-
         tokenAddr = self.get_token_address(symbol)
         emitMessage = '42["getMarket",{"token":"' + tokenAddr + '","user":""}]'
-        self.listen_once_and_close("getMarket", emitMessage, "market", callback)
+        self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         return d
 
     def get_amount_filled(self, symbol, order_id):
@@ -237,20 +233,18 @@ class Client:
         """
         order = self.get_order(symbol, order_id)
         order = order.result
-
         if order == None:
             return None
-        amountGet = int('{:.0f}'.format(float(order["amountGet"])))
-        amountGive = int('{:.0f}'.format(float(order["amountGive"])))
-        tokenGet = Web3.toChecksumAddress(order["tokenGet"])
-        tokenGive = Web3.toChecksumAddress(order["tokenGive"])
-        expires = int(order["expires"])
-        nonce = int(order["nonce"])
-        user = Web3.toChecksumAddress(order["user"])
-        v = int(order["v"])
-        r = Web3.toBytes(hexstr=order["r"])
-        s = Web3.toBytes(hexstr=order["s"])
-
+        amountGet = int('{:.0f}'.format(float(order['amountGet'])))
+        amountGive = int('{:.0f}'.format(float(order['amountGive'])))
+        tokenGet = Web3.toChecksumAddress(order['tokenGet'])
+        tokenGive = Web3.toChecksumAddress(order['tokenGive'])
+        expires = int(order['expires'])
+        nonce = int(order['nonce'])
+        user = Web3.toChecksumAddress(order['user'])
+        v = int(order['v'])
+        r = Web3.toBytes(hexstr=order['r'])
+        s = Web3.toBytes(hexstr=order['s'])
         amount_filled = self.contractEtherDelta.call().amountFilled(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, v, r, s)
         return amount_filled
 
@@ -267,24 +261,22 @@ class Client:
         """
         order = self.get_order(symbol, order_id)
         order = order.result
-
         if order == None:
             return None
-        amountGet = int('{:.0f}'.format(float(order["amountGet"])))
-        amountGive = int('{:.0f}'.format(float(order["amountGive"])))
-        tokenGet = Web3.toChecksumAddress(order["tokenGet"])
-        tokenGive = Web3.toChecksumAddress(order["tokenGive"])
-        expires = int(order["expires"])
-        nonce = int(order["nonce"])
-        user = Web3.toChecksumAddress(order["user"])
-        v = int(order["v"])
-        r = Web3.toBytes(hexstr=order["r"])
-        s = Web3.toBytes(hexstr=order["s"])
-
+        amountGet = int('{:.0f}'.format(float(order['amountGet'])))
+        amountGive = int('{:.0f}'.format(float(order['amountGive'])))
+        tokenGet = Web3.toChecksumAddress(order['tokenGet'])
+        tokenGive = Web3.toChecksumAddress(order['tokenGive'])
+        expires = int(order['expires'])
+        nonce = int(order['nonce'])
+        user = Web3.toChecksumAddress(order['user'])
+        v = int(order['v'])
+        r = Web3.toBytes(hexstr=order['r'])
+        s = Web3.toBytes(hexstr=order['s'])
         available_volume = self.contractEtherDelta.call().availableVolume(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, v, r, s)
         return available_volume
 
-    def get_ticker(self, symbol):
+    def get_ticker(self, symbol=''):
         """
         Returns ticker data for token
 
@@ -303,9 +295,28 @@ class Client:
                         if msg['returnTicker']['ETH_' + symbol.upper()]:
                             result = msg['returnTicker']['ETH_' + symbol.upper()]
             d.callback(result)
-
         emitMessage = '42["getMarket",{"token":"","user":""}]'
-        self.listen_once_and_close("getMarket", emitMessage, "market", callback)
+        self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
+        return d
+
+    def get_tickers(self):
+        """
+        Returns ticker data for all tokens
+
+        :return: ticker data
+        :rtype: object
+        """
+        d = defer.Deferred()
+        def callback(msg):
+            self.ws.close()
+            result = {}
+            if msg != None:
+                if msg:
+                    if msg['returnTicker']:
+                        result = msg['returnTicker']
+            d.callback(result)
+        emitMessage = '42["getMarket",{"token":"","user":""}]'
+        self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         return d
 
     def get_block_number(self):
@@ -343,17 +354,13 @@ class Client:
         global addressEtherDelta, w3
         #userAccount = web3.eth.account.privateKeyToAccount(user_private_key).address
         userAccount = user_address
-
         print("\nCreating '" + side + "' order for %.18f tokens @ %.18f ETH/token" % (amount, price))
-
         # Validate the input
         if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
-
         # Ensure good parameters
         token = Web3.toChecksumAddress(token_addr)
         userAccount = Web3.toChecksumAddress(userAccount)
         user_private_key = Web3.toBytes(hexstr=user_private_key)
-
         # Build the order parameters
         amountBigNum = amount
         amountBaseBigNum = float(amount) * float(price)
@@ -370,8 +377,7 @@ class Client:
             amountGet = w3.toWei(amountBigNum, 'ether')
             amountGive = w3.toWei(amountBaseBigNum, 'ether')
         else:
-            print("WARNING: invalid order side, no action taken: " + str(side))
-
+            print('WARNING: invalid order side, no action taken: ' + str(side))
         # Serialize (according to ABI) and sha256 hash the order's parameters
         hashhex = self.solidity_sha256(
             ['address', 'address', 'uint256', 'address', 'uint256', 'uint256', 'uint256'],
@@ -380,7 +386,6 @@ class Client:
         # Sign the hash of the order's parameters with our private key (this also addes the "Ethereum Signed Message" header)
         signresult = w3.eth.account.sign(message_hexstr=hashhex, private_key=user_private_key)
         #print("Result of sign:" + str(signresult))
-
         orderDict = {
             'amountGet' : amountGet,
             'amountGive' : amountGive,
@@ -408,9 +413,7 @@ class Client:
         d = defer.Deferred()
         def callback(msg):
             self.ws.close()
-
             d.callback(msg)
-
         emitMessage = '42["message",' + json.JSONEncoder().encode(order) + ']'
         self.listen_once_and_close("message", emitMessage, "messageResult", callback)
         return d
@@ -443,10 +446,8 @@ class Client:
             ordertype = 'sell'   # it's a sell order so we are buying tokens for ETH
             amount = eth_amount
         amount_in_wei = web3.toWei(amount, 'ether')
-
         print("\nTrading " + str(eth_amount) + " ETH of tokens (" + str(amount) + " tokens) against this " + ordertype + " order: %.10f tokens @ %.10f ETH/token" % (float(order['ethAvailableVolume']), float(order['price'])))
         print("Details about order: " + str(order))
-
         # trade function arguments
         kwargs = {
             'tokenGet' : Web3.toChecksumAddress(order['tokenGet']),
@@ -461,10 +462,8 @@ class Client:
             's' : w3.toBytes(hexstr=order['s']),
             'amount' : int(amount_in_wei),
         }
-
         # Bail if there's no private key
         if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
-
         # Build binary representation of the function call with arguments
         abidata = self.contractEtherDelta.encodeABI('trade', kwargs=kwargs)
         print("abidata: " + str(abidata))
@@ -514,10 +513,8 @@ class Client:
             'r' : w3.toBytes(hexstr=order['r']),
             's' : w3.toBytes(hexstr=order['s']),
         }
-
         # Bail if there's no private key
         if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
-
         # Build binary representation of the function call with arguments
         abidata = self.contractEtherDelta.encodeABI('cancelOrder', kwargs=kwargs)
         print("abidata: " + str(abidata))
@@ -550,43 +547,55 @@ class Client:
         return hash_object.hexdigest()
 
     def listen_once_and_close(self, emitTopic, emitMessage, eventTopic, callback):
+        tries = 0
+        max_tries = 3
         def on_message(ws, message):
-            if message[:2] != "42":
+            if message[:2] != '42':
                 pass
             else:
                 j = json.loads(message[2:])
                 if not j:
-                    callback({})
+                    pass
                 else:
                     if j[0] == eventTopic:
-                        callback(j[1])
-
+                        if j[1]:
+                            callback(j[1])
+                        else:
+                            make_request()
+                    else:
+                        make_request()
         def on_open(ws):
             self.ws.send(emitMessage)
-
         def on_close(ws):
-            None
-
-        self.ws = websocket.WebSocketApp(
-            websocket_url,
-            on_message = on_message,
-              on_ping = self.on_ping,
-              on_pong = self.on_pong,
-              on_error = self.on_error,
-              on_close = on_close)
-        self.ws.on_open = on_open
-        self.ws.run_forever(ping_interval=10)
+            pass
+        def make_request():
+            nonlocal tries
+            nonlocal max_tries
+            if tries > max_tries:
+                pass
+            self.ws = websocket.WebSocketApp(
+                websocket_url,
+                on_message = on_message,
+                  on_ping = self.on_ping,
+                  on_pong = self.on_pong,
+                  on_error = self.on_error,
+                  on_close = on_close)
+            self.ws.on_open = on_open
+            self.ws.run_forever(ping_interval=10)
+            tries = tries + 1
+        make_request()
 
     def send_message(self, argObject):
         tosend = '42["message",' + json.JSONEncoder().encode(argObject) + ']'
-        print ("Sending message: " + tosend)
+        print ('Sending message: ' + tosend)
         self.ws.send(tosend)
 
     def on_ping(self, ws, ping):
-        print('Ping:' + str(ping))
-
+        pass
+        #print('Ping:' + str(ping))
     def on_pong(self, ws, pong):
-        print('EtherDelta WebSocket API replied to our ping with a pong:' + str(pong))
-
+        pass
+        #print('EtherDelta WebSocket API replied to our ping with a pong:' + str(pong))
     def on_error(self, ws, err):
-        print(err)
+        pass
+        #print(err)

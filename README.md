@@ -65,6 +65,15 @@ token_addr = client.get_token_address(symbol)
 print(token_addr) # 0x0d8775f648430679a709e98d2b0cb6250d2887ef
 ```
 
+Get ticker data for all tokens
+
+```python
+client = etherdelta.Client()
+tickers = client.get_tickers()
+print(tickers.result)
+# {'ETH_0xec46': {'ask': 0.01, 'quoteVolume': 193.809, 'last': 0.000300001, 'baseVolume': 0.058, 'bid': 0.000300002, 'percentChange': 0, 'tokenAddr': '0xec46f8207d766012454c408de210bcbc2243e71c'}, 'ETH_EMV': {'ask': 0.0004579, 'quoteVolume': 11451.47, 'last': 0.0004579, 'baseVolume': 4.647, 'bid': 0.0004586, 'percentChange': 0.2376, 'tokenAddr': '0xb802b24e0637c2b87d2e8b7784c055bbe921011a'}}
+```
+
 Get ticker data for a token
 
 ```python
@@ -145,7 +154,7 @@ import etherdelta
 client = etherdelta.Client()
 
 # Get Buy Order Book
-token = "UKG"
+token = "BAT"
 orders = client.get_buy_orderbook(token)
 
 print(orders)
