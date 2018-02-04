@@ -206,6 +206,12 @@ pip3 install twisted
 
     - A: Unfortunately, the EtherDelta websocket client is unreliable.
 
+# Resources
+
+- [EtherDelta API](https://github.com/etherdelta/etherdelta.github.io/blob/master/docs/API.md)
+
+- [EtherDelta Smart Contracts](https://github.com/etherdelta/etherdelta.github.io/blob/master/docs/SMART_CONTRACT.md)
+
 ## License
 
 MIT
