@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-__version__ = '1.0'
+__version__ = '0.0.1'
 
 import hashlib
 import websocket
