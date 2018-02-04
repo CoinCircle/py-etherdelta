@@ -106,7 +106,4 @@ venv.bak/
 .DS_Store
 
 venvpy3
-MANIFEST
-setup.py
 test.py
-requirements.txt

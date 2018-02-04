@@ -119,13 +119,13 @@ class Client:
                             tokenAddr = ticker.result['tokenAddr']
         return tokenAddr
 
-    def get_orders(self, symbol):
+    def get_orderbook(self, symbol):
         """
-        Returns the orders for a token given the symbol
+        Returns the orderbook for a token given the symbol
 
         :param symbol: token symbol
         :type account: str
-        :return: orders
+        :return: orderbook
         :rtype: list
         """
         d = defer.Deferred()
@@ -306,7 +306,6 @@ class Client:
         :return: ticker data
         :rtype: object
         """
-        print(web3.eth.account.privateKeyToAccount)
         d = defer.Deferred()
         def callback(msg):
             self.ws.close()
@@ -329,7 +328,7 @@ class Client:
         """
         return w3.eth.blockNumber
 
-    def create_order(self, side, expires, price, amount, token_addr, randomseed, user_private_key, user_address):
+    def create_order(self, side, expires, price, amount, token_addr, randomseed, user_private_key):
         """
         Returns a signed order
 
@@ -347,14 +346,11 @@ class Client:
         :type randomseed: bool
         :param user_private_key: user private key
         :type user_private_key: string
-        :param user_address: user address
-        :type user_address: string
         :return: signed order
         :rtype: object
         """
         global addressEtherDelta, w3
-        #userAccount = web3.eth.account.privateKeyToAccount(user_private_key).address
-        userAccount = user_address
+        userAccount = web3.eth.account.privateKeyToAccount(user_private_key).address
         print("\nCreating '" + side + "' order for %.18f tokens @ %.18f ETH/token" % (amount, price))
         # Validate the input
         if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
@@ -419,7 +415,7 @@ class Client:
         self.listen_once_and_close("message", emitMessage, "messageResult", callback)
         return d
 
-    def trade(self, order, eth_amount, user_private_key, user_address):
+    def trade(self, order, eth_amount, user_private_key):
         """
         Invokes on-chain trade
 
@@ -429,14 +425,11 @@ class Client:
         :type eth_amount: float
         :param user_private_key: user private key
         :type user_private_key: string
-        :param user_address: user address
-        :type user_address: string
         :return: tx
         :rtype: object
         """
         global web3, addressEtherDelta
-        #userAccount = web3.eth.account.privateKeyToAccount(user_private_key).address
-        userAccount = user_account
+        userAccount = web3.eth.account.privateKeyToAccount(user_private_key).address
         # Transaction info
         maxGas = 250000
         gasPriceWei = 1000000000    # 1 Gwei
@@ -481,7 +474,7 @@ class Client:
         print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
         return result
 
-    def cancel_order(self, order, user_private_key, user_address):
+    def cancel_order(self, order, user_private_key):
         """
         Cancels an order on-chain
 
@@ -489,14 +482,11 @@ class Client:
         :type order: object
         :param user_private_key: user private key
         :type user_private_key: string
-        :param user_address: user address
-        :type user_address: string
         :return: tx
         :rtype: object
         """
         global w3, addressEtherDelta
-        #userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
-        userAccount = user_address
+        userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
         # Transaction info
         maxGas = 250000
         gasPriceWei = 1000000000    # 1 Gwei

@@ -84,12 +84,12 @@ print(ticker.result)
 # {'quoteVolume': 2603.107, 'bid': 0.000421, 'baseVolume': 1.135, 'tokenAddr': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 'last': 0.000477839, 'ask': 0.000477838, 'percentChange': 0.0607}
 ```
 
-Get all orders for token
+Get orderbook (all buy and sell orders) for token
 
 ```python
 client = etherdelta.Client()
 symbol = 'BAT'
-orders = client.get_orders(symbol)
+orders = client.get_orderbook(symbol)
 print(orders.result)
 # {'buys': [{'s': '0x36728e74f49ed1ef7f85e603c8ea4b149f5c427b9f0bfc6bc072ad780486dd7b', 'user': '0x0f8aa39a58adcc3df98d826ac798ab837cc0833c', 'ethAvailableVolume': '6755.671999999999', 'amount': '6755671999999999213568', 'availableVolumeBase': '2876979662150982000', 'tokenGive': '0x0000000000000000000000000000000000000000', 'expires': '5019005', 'amountFilled': None, 'updated': '2018-02-02T19:42:59.089Z', 'nonce': '4500026492', 'id': '9f365bafc972b2e21ed52569075647c4778385c0ce9283cb16630df78ed99f72_buy', 'availableVolume': '6.755671999999999213568e+21', 'r': '0xa3ca2a8fb3773271b073bc45a1b81138d8bf95c82ca877bf407ec3250a934b2a', 'tokenGet': '0x0d8775f648430679a709e98d2b0cb6250d2887ef', 'amountGet': '6755671999999999213568', 'v': 28, 'price': '0.00042586135948444247', 'ethAvailableVolumeBase': '2.876979662150982', 'amountGive': '2876979662150982144'}}
 ```
@@ -181,8 +181,9 @@ print(tx)
 
 ## Set up
 
-Install Web3
+Install Web3.py
 
+<!--
 ```bash
 git clone git@github.com:ethereum/web3.py.git
 cd web3.py
@@ -190,14 +191,23 @@ virtualenv -p python3 venvpy3
 pip3 install -r requirements-dev.txt
 pip3 install -e .
 ```
+-->
+```bash
+sudo pip3.6 install git+git://github.com/ethereum/web3.py.git
+```
 
 Install dependencies
 
+<!--
 ```bash
 virtualenv -p python3 venvpy3
 . venvpy3/bin/activate
 pip3 install websocket-client
 pip3 install twisted
+```
+-->
+```bash
+pip install -r requirements.txt
 ```
 
 ## FAQ
