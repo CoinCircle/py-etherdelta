@@ -193,7 +193,7 @@ pip3 install -e .
 ```
 -->
 ```bash
-sudo pip3.6 install git+git://github.com/ethereum/web3.py.git
+sudo pip install git+git://github.com/ethereum/web3.py.git
 ```
 
 Install dependencies
