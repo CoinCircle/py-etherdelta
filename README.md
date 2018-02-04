@@ -6,7 +6,7 @@ This was originally a fork of [this client](https://github.com/tomvanbraeckel/et
 
 ## Documentation
 
-[Documentation](./docs.md)
+[Documentation](./DOC.md)
 
 ### Examples
 
