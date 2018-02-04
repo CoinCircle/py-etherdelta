@@ -168,11 +168,10 @@ expires = int(order["expires"])
 token_price = 0.0001
 token_amount = 1
 token_address = order["tokenGet"]
-pub_address = "0x123"
 priv_key = "123..."
 randomseed = True
 
-signed_order = client.create_order("buy", expires, token_price, token_amount, token_address, pub_address, randomseed, priv_key, pub_address)
+signed_order = client.create_order("buy", expires, token_price, token_amount, token_address, randomseed, priv_key)
 
 eth_amount = 0.0001
 tx = client.trade(order, eth_amount, priv_key)
