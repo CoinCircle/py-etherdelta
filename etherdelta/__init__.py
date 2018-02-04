@@ -306,6 +306,7 @@ class Client:
         :return: ticker data
         :rtype: object
         """
+        print(web3.eth.account.privateKeyToAccount)
         d = defer.Deferred()
         def callback(msg):
             self.ws.close()
