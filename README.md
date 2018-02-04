@@ -154,24 +154,24 @@ import etherdelta
 client = etherdelta.Client()
 
 # Get Buy Order Book
-token = "BAT"
+token = 'BAT'
 orders = client.get_buy_orderbook(token)
 
 print(orders)
 
 # Make a Trade
-order_id = "959690a3d665ce5e77c76df4273170bae5e57f990436d4b909e9656f64e221f7_buy"
+order_id = '959690a3d665ce5e77c76df4273170bae5e57f990436d4b909e9656f64e221f7_buy'
 order = client.get_order(token, order_id)
 order = order.result
 
-expires = int(order["expires"])
+expires = int(order['expires'])
 token_price = 0.0001
 token_amount = 1
-token_address = order["tokenGet"]
-priv_key = "123..."
+token_address = order['tokenGet']
+priv_key = '123...'
 randomseed = True
 
-signed_order = client.create_order("buy", expires, token_price, token_amount, token_address, randomseed, priv_key)
+signed_order = client.create_order('buy', expires, token_price, token_amount, token_address, randomseed, priv_key)
 
 eth_amount = 0.0001
 tx = client.trade(order, eth_amount, priv_key)
