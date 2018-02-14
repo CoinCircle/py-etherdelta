@@ -6,7 +6,7 @@ from distutils.core import setup
 setup(
     name = 'etherdelta',
     packages = ['etherdelta'],
-    version = '0.0.1',
+    version = '0.0.2',
     url = 'https://github.com/miguelmota/py-etherdelta',
     download_url = 'https://github.com/miguelmota/py-etherdelta/archive/master.zip',
     author = 'Miguel Mota <hello@miguelmota.com>',
