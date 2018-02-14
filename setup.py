@@ -14,7 +14,7 @@ with open(path.join(pwd, 'README.md'), encoding='utf-8') as f:
 setup(
     name = 'etherdelta',
     packages = ['etherdelta'],
-    version = '0.0.7',
+    version = '0.0.10',
     url = 'https://github.com/miguelmota/py-etherdelta',
     download_url = 'https://github.com/miguelmota/py-etherdelta/archive/master.zip',
     author = 'Miguel Mota <hello@miguelmota.com>',
@@ -25,9 +25,9 @@ setup(
     keywords = ['etherdelta'],
     include_package_data=True,
     package_data={
-        'contracts': [
-            'etherdelta.json',
-            'token.json'
+        '': [
+            'contracts/etherdelta.json',
+            'contracts/token.json'
         ],
     },
 )

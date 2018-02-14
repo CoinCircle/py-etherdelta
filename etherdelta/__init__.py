@@ -50,7 +50,7 @@ class Client:
         """
         account = Web3.toChecksumAddress(account)
         balance = w3.eth.getBalance(account)
-        return web3.fromWei(balance, 'ether')
+        return w3.fromWei(balance, 'ether')
 
     def get_token_balance(self, token_addr, account):
         """
@@ -67,7 +67,7 @@ class Client:
         contractToken = w3.eth.contract(address=token_addr, abi=self.token_abi)
         account = Web3.toChecksumAddress(account)
         balance = contractToken.call().balanceOf(account)
-        return web3.fromWei(balance, 'ether')
+        return w3.fromWei(balance, 'ether')
 
     def get_etherdelta_eth_balance(self, account):
         """
@@ -80,7 +80,7 @@ class Client:
         """
         account = Web3.toChecksumAddress(account)
         balance = self.contractEtherDelta.call().balanceOf(token='0x0000000000000000000000000000000000000000', user=account)
-        return web3.fromWei(balance, 'ether')
+        return w3.fromWei(balance, 'ether')
 
     def get_etherdelta_token_balance(self, account, symbol):
         """

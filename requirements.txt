@@ -177,7 +177,7 @@ urllib3==1.21.1
 urlopen==1.0.0
 virtualenv==15.1.0
 wcwidth==0.1.7
-web3==4.0.0b7
+git+git://github.com/ethereum/web3.py.git@9c9447d#egg=web3
 websocket-client==0.40.0
 Werkzeug==0.11.11
 WTForms==2.1
