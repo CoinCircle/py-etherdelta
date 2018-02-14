@@ -52,14 +52,14 @@ class Client:
         balance = w3.eth.getBalance(account)
         return w3.fromWei(balance, 'ether')
 
-    def get_token_balance(self, token_addr, account):
+    def get_token_balance(self, account, token_addr):
         """
         Returns the token balance of an account
 
-        :param token_addr: token address
-        :type account: str
         :param account: account
         :type account: str
+        :param token_addr: token address
+        :type token_addr: str
         :return: balance
         :rtype: int
         """
@@ -82,19 +82,18 @@ class Client:
         balance = self.contractEtherDelta.call().balanceOf(token='0x0000000000000000000000000000000000000000', user=account)
         return w3.fromWei(balance, 'ether')
 
-    def get_etherdelta_token_balance(self, account, symbol):
+    def get_etherdelta_token_balance(self, account, token_addr):
         """
         Returns the token balance in EtherDelta of an account
 
         :param account: account
         :type account: str
-        :param symbol: token symbol
-        :type symbol: str
+        :param token_addr: token address
+        :type token_addr: str
         :return: balance
         :rtype: int
         """
         account = Web3.toChecksumAddress(account)
-        token_addr = self.get_token_address(symbol)
         balance = 0
         if token_addr:
             balance = self.contractEtherDelta.call().balanceOf(token=token_addr, user=account)
@@ -119,12 +118,12 @@ class Client:
                             tokenAddr = ticker.result['tokenAddr']
         return tokenAddr
 
-    def get_orderbook(self, symbol):
+    def get_orderbook(self, token_addr):
         """
         Returns the orderbook for a token given the symbol
 
-        :param symbol: token symbol
-        :type account: str
+        :param token_addr: token address
+        :type token_addr: str
         :return: orderbook
         :rtype: list
         """
@@ -136,21 +135,19 @@ class Client:
                 if msg['orders']:
                     result = msg['orders']
             d.callback(result)
-
-        tokenAddr = self.get_token_address(symbol)
         if tokenAddr:
-            emitMessage = '42["getMarket",{"token":"' + tokenAddr + '","user":""}]'
+            emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
             self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         else:
             d.callback({})
         return d
 
-    def get_order(self, symbol, order_id):
+    def get_order(self, token_addr, order_id):
         """
         Returns the the order information for a token given the symbol and order ID
 
-        :param symbol: token symbol
-        :type account: str
+        :param token_addr: token address
+        :type token_addr: str
         :param order_id: order ID
         :type order_id: str
         :return: order
@@ -170,18 +167,16 @@ class Client:
                         if o['id'] == order_id:
                             order = o
             d.callback(order)
-
-        tokenAddr = self.get_token_address(symbol)
-        emitMessage = '42["getMarket",{"token":"' + tokenAddr + '","user":""}]'
+        emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
         self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         return d
 
-    def get_sell_orderbook(self, symbol):
+    def get_sell_orderbook(self, token_addr):
         """
         Returns the sell (asks) orderbook
 
-        :param symbol: token symbol
-        :type symbol: str
+        :param token_addr: token address
+        :type token_addr: str
         :return: sell orderbook list
         :rtype: list
         """
@@ -193,17 +188,16 @@ class Client:
                 if msg['orders']['sells']:
                     result = msg['orders']['sells']
             d.callback(result)
-        tokenAddr = self.get_token_address(symbol)
-        emitMessage = '42["getMarket",{"token":"' + tokenAddr + '","user":""}]'
+        emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
         self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         return d
 
-    def get_buy_orderbook(self, symbol):
+    def get_buy_orderbook(self, token_addr):
         """
         Returns the buy (bids) orderbook
 
-        :param symbol: token symbol
-        :type symbol: str
+        :param token_addr: token address
+        :type token_addr: str
         :return: buy orderbook list
         :rtype: list
         """
@@ -215,23 +209,23 @@ class Client:
                 if msg['orders']['buys']:
                     result = msg['orders']['buys']
             d.callback(result)
-        tokenAddr = self.get_token_address(symbol)
-        emitMessage = '42["getMarket",{"token":"' + tokenAddr + '","user":""}]'
+        emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
+        print(token_addr)
         self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
         return d
 
-    def get_amount_filled(self, symbol, order_id):
+    def get_amount_filled(self, token_addr, order_id):
         """
         Returns amount filled for an order given order ID
 
-        :param symbol: token symbol
-        :type symbol: str
+        :param token_addr: token address
+        :type token_addr: str
         :param order_id: order ID
         :type order_id: str
         :return: filled amount
         :rtype: int
         """
-        order = self.get_order(symbol, order_id)
+        order = self.get_order(token_addr, order_id)
         order = order.result
         if order == None:
             return None
@@ -248,18 +242,18 @@ class Client:
         amount_filled = self.contractEtherDelta.call().amountFilled(tokenGet, amountGet, tokenGive, amountGive, expires, nonce, user, v, r, s)
         return amount_filled
 
-    def get_available_volume(self, symbol, order_id):
+    def get_available_volume(self, token_addr, order_id):
         """
         Returns available volume for an order give order ID
 
-        :param symbol: token symbol
-        :type symbol: str
+        :param token_addr: token address
+        :type token_addr: str
         :param order_id: order ID
         :type order_id: str
         :return: available volume
         :rtype: int
         """
-        order = self.get_order(symbol, order_id)
+        order = self.get_order(token_addr, order_id)
         order = order.result
         if order == None:
             return None

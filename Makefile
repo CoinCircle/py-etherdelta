@@ -8,3 +8,6 @@ publish:
 
 freeze:
 	pipreqs etherdelta/ --savepath requirements.txt
+
+docs:
+	pydoc3 etherdelta > doc/README.md
