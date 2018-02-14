@@ -30,8 +30,11 @@ setup(
             'contracts/token.json'
         ],
     },
+    dependency_links=[
+        'git+ssh://github.com/ethereum/web3.py.git#egg=web3-4.0.0-beta.9'
+    ],
     install_requires=[
-        'https://github.com/ethereum/web3.py/archive/master.zip#egg=web3-4.0.0-beta.9',
+        'web3==4.0.0-beta.9'
         'alembic==0.9.6',
         'amqp==1.4.9',
         'anyjson==0.3.3',
