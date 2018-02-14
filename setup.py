@@ -31,6 +31,7 @@ setup(
         ],
     },
     install_requires=[
+        'https://github.com/ethereum/web3.py/archive/master.zip#egg=web3-4.0.0-beta.9',
         'alembic==0.9.6',
         'amqp==1.4.9',
         'anyjson==0.3.3',
@@ -210,7 +211,6 @@ setup(
         'urlopen==1.0.0',
         'virtualenv==15.1.0',
         'wcwidth==0.1.7',
-        'git+git://github.com/ethereum/web3.py.git@9c9447d#egg=web3',
         'websocket-client==0.40.0',
         'Werkzeug==0.11.11',
         'WTForms==2.1',
