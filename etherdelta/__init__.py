@@ -30,12 +30,12 @@ class Client:
 
     def __init__(self):
         token_abi = None
-        with open(os.path.join(os.path.dirname(__file__), '../contracts/token.json'), 'r') as token_abi_definition:
+        with open(os.path.join(os.path.dirname(__file__), './contracts/token.json'), 'r') as token_abi_definition:
             token_abi = json.load(token_abi_definition)
         self.token_abi = token_abi
         global addressEtherDelta
         addressEtherDelta = Web3.toChecksumAddress(addressEtherDelta)
-        with open(os.path.join(os.path.dirname(__file__), '../contracts/etherdelta.json'), 'r') as abi_definition:
+        with open(os.path.join(os.path.dirname(__file__), './contracts/etherdelta.json'), 'r') as abi_definition:
             abiEtherDelta = json.load(abi_definition)
         self.contractEtherDelta = w3.eth.contract(address=addressEtherDelta, abi=abiEtherDelta)
 
