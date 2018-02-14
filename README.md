@@ -184,7 +184,7 @@ tx = client.trade(order, eth_amount, priv_key)
 print(tx)
 ```
 
-## Set up
+## Development
 
 Install Web3.py
 
