@@ -7,7 +7,7 @@ This was originally a fork of [this client](https://github.com/tomvanbraeckel/et
 # Install
 
 ```bash
-pip install etherdelta
+pip3 install git+git://github.com/miguelmota/py-etherdelta.git
 ```
 
 ## Documentation
