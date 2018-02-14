@@ -23,7 +23,7 @@ from web3.utils.encoding import hex_encode_abi_type
 # etherdelta_2's contract address
 addressEtherDelta = '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819'
 w3 = Web3(HTTPProvider('https://mainnet.infura.io/'))
-websocket_url = 'wss://socket04.etherdelta.com/socket.io/?EIO=3&transport=websocket'
+websocket_url = 'wss://socket05.etherdelta.com/socket.io/?EIO=3&transport=websocket'
 
 class Client:
     ws = None
