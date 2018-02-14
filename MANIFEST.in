@@ -1,0 +1,7 @@
+include LICENSE.md
+include setup.py
+include README.md
+include requirements.txt
+include etherdelta/__init__.py
+include etherdelta/contracts/etherdelta.json
+include etherdelta/contracts/token.json
