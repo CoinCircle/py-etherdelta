@@ -1,5 +1,4 @@
 git+git://github.com/ethereum/web3.py.git@9c9447d#egg=web3
 ethereum_utils==0.6.2
-Twisted==17.9.0
 eth_utils==1.0.0b1
 websocket_client==0.46.0

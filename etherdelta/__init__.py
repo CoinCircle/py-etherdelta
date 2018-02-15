@@ -13,7 +13,6 @@ import web3
 from web3 import Web3, HTTPProvider
 from operator import itemgetter
 from collections import OrderedDict
-from twisted.internet import defer
 # The functions below are used for our solidity_sha256() function
 #from web3.utils.normalizers import abi_ens_resolver
 from web3.utils.abi import map_abi_data
@@ -127,20 +126,19 @@ class Client:
         :return: orderbook
         :rtype: list
         """
-        d = defer.Deferred()
+        result = {}
+        def done():
+            yield result
         def callback(msg):
+            nonlocal result
             self.ws.close()
-            result = {}
             if msg:
                 if msg['orders']:
                     result = msg['orders']
-            d.callback(result)
-        if tokenAddr:
-            emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
-            self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
-        else:
-            d.callback({})
-        return d
+            done()
+        emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
+        self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
+        return next(done())
 
     def get_order(self, token_addr, order_id):
         """
@@ -153,23 +151,25 @@ class Client:
         :return: order
         :rtype: object
         """
-        d = defer.Deferred()
+        result = {}
+        def done():
+            yield result
         def callback(msg):
+            nonlocal result
             self.ws.close()
-            order = {}
             if msg:
                 if msg['orders']:
                     orders = msg['orders']
                     for o in orders['sells']:
                         if o['id'] == order_id:
-                            order = o
+                            result = o
                     for o in orders['buys']:
                         if o['id'] == order_id:
-                            order = o
-            d.callback(order)
+                            result = o
+            done()
         emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
         self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
-        return d
+        return next(done())
 
     def get_sell_orderbook(self, token_addr):
         """
@@ -180,17 +180,19 @@ class Client:
         :return: sell orderbook list
         :rtype: list
         """
-        d = defer.Deferred()
+        result = []
+        def done():
+            yield result
         def callback(msg):
+            nonlocal result
             self.ws.close()
-            result = []
             if msg['orders']:
                 if msg['orders']['sells']:
                     result = msg['orders']['sells']
-            d.callback(result)
+            done()
         emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
         self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
-        return d
+        return next(done())
 
     def get_buy_orderbook(self, token_addr):
         """
@@ -201,18 +203,20 @@ class Client:
         :return: buy orderbook list
         :rtype: list
         """
-        d = defer.Deferred()
+        result = []
+        def done():
+            yield result
         def callback(msg):
+            nonlocal result
             self.ws.close()
-            result = []
             if msg['orders']:
                 if msg['orders']['buys']:
                     result = msg['orders']['buys']
-            d.callback(result)
+                    return done()
+            return done()
         emitMessage = '42["getMarket",{"token":"' + token_addr + '","user":""}]'
-        print(token_addr)
         self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
-        return d
+        return next(done())
 
     def get_amount_filled(self, token_addr, order_id):
         """
@@ -226,7 +230,6 @@ class Client:
         :rtype: int
         """
         order = self.get_order(token_addr, order_id)
-        order = order.result
         if order == None:
             return None
         amountGet = int('{:.0f}'.format(float(order['amountGet'])))
@@ -254,7 +257,6 @@ class Client:
         :rtype: int
         """
         order = self.get_order(token_addr, order_id)
-        order = order.result
         if order == None:
             return None
         amountGet = int('{:.0f}'.format(float(order['amountGet'])))
@@ -279,19 +281,20 @@ class Client:
         :return: ticker data
         :rtype: object
         """
-        d = defer.Deferred()
+        result = {}
+        def done():
+            yield result
         def callback(msg):
+            nonlocal result
             self.ws.close()
-            result = {}
-            if msg != None:
-                if msg:
-                    if msg['returnTicker']:
-                        if msg['returnTicker']['ETH_' + symbol.upper()]:
-                            result = msg['returnTicker']['ETH_' + symbol.upper()]
-            d.callback(result)
-        emitMessage = '42["getMarket",{"token":"","user":""}]'
+            if msg:
+                if msg['returnTicker']:
+                    if msg['returnTicker']['ETH_' + symbol.upper()]:
+                        result = msg['returnTicker']['ETH_' + symbol.upper()]
+            done()
+        emitMessage = '42["getMarket",{"token":"","user":"0x0000000000000000000000000000000000000000"}]'
         self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
-        return d
+        return next(done())
 
     def get_tickers(self):
         """
@@ -300,18 +303,21 @@ class Client:
         :return: ticker data
         :rtype: object
         """
-        d = defer.Deferred()
+        result = {}
+        def done():
+            yield result
         def callback(msg):
+            nonlocal result
             self.ws.close()
-            result = {}
+            print(msg)
             if msg != None:
                 if msg:
                     if msg['returnTicker']:
                         result = msg['returnTicker']
-            d.callback(result)
-        emitMessage = '42["getMarket",{"token":"","user":""}]'
+            done()
+        emitMessage = '42["getMarket",{"token":"","user":"0x0000000000000000000000000000000000000000"}]'
         self.listen_once_and_close('getMarket', emitMessage, 'market', callback)
-        return d
+        return next(done())
 
     def get_block_number(self):
         """
@@ -344,7 +350,7 @@ class Client:
         :rtype: object
         """
         global addressEtherDelta, w3
-        userAccount = web3.eth.account.privateKeyToAccount(user_private_key).address
+        userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
         print("\nCreating '" + side + "' order for %.18f tokens @ %.18f ETH/token" % (amount, price))
         # Validate the input
         if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
@@ -401,13 +407,16 @@ class Client:
         :return: response
         :rtype: string
         """
-        d = defer.Deferred()
+        result = ''
+        def done():
+            yield result
         def callback(msg):
+            nonlocal result
             self.ws.close()
-            d.callback(msg)
+            result = msg
         emitMessage = '42["message",' + json.JSONEncoder().encode(order) + ']'
         self.listen_once_and_close("message", emitMessage, "messageResult", callback)
-        return d
+        return next(done())
 
     def trade(self, order, eth_amount, user_private_key):
         """
@@ -423,7 +432,7 @@ class Client:
         :rtype: object
         """
         global web3, addressEtherDelta
-        userAccount = web3.eth.account.privateKeyToAccount(user_private_key).address
+        userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
         # Transaction info
         maxGas = 250000
         gasPriceWei = 1000000000    # 1 Gwei
