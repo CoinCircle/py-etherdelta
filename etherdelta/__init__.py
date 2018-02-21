@@ -22,12 +22,16 @@ from web3.utils.encoding import hex_encode_abi_type
 # etherdelta_2's contract address
 addressEtherDelta = '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819'
 w3 = Web3(HTTPProvider('https://mainnet.infura.io/'))
-websocket_url = 'wss://socket05.etherdelta.com/socket.io/?EIO=3&transport=websocket'
 
 class Client:
     ws = None
+    websocket_url = None
 
     def __init__(self):
+        self.websocket_url = 'wss://socket05.etherdelta.com/socket.io/?EIO=3&transport=websocket'
+        self.bootstrap()
+
+    def bootstrap(self):
         token_abi = None
         with open(os.path.join(os.path.dirname(__file__), './contracts/token.json'), 'r') as token_abi_definition:
             token_abi = json.load(token_abi_definition)
@@ -568,7 +572,7 @@ class Client:
             if tries > max_tries:
                 pass
             self.ws = websocket.WebSocketApp(
-                websocket_url,
+                self.websocket_url,
                 on_message = on_message,
                   on_ping = self.on_ping,
                   on_pong = self.on_pong,
@@ -593,3 +597,8 @@ class Client:
     def on_error(self, ws, err):
         pass
         #print(err)
+
+class ForkDeltaClient(Client):
+    def __init__(self):
+        self.websocket_url = 'wss://api.forkdelta.com/socket.io/?EIO=3&transport=websocket'
+        self.bootstrap()

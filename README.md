@@ -15,6 +15,30 @@ or (always latest)
 pip3 install git+git://github.com/miguelmota/py-etherdelta.git
 ```
 
+## Getting Started
+
+```python
+# import package
+import etherdelta
+
+# initialize client
+client = etherdelta.Client()
+
+# call methods
+token_addr = '0x0d8775f648430679a709e98d2b0cb6250d2887ef'
+orders = client.get_orderbook(token_addr)
+print(orders)
+```
+
+[ForkDelta](https://forkdelta.github.io/) client
+
+```python
+import etherdelta
+
+# initialize ForkDelta client
+client = etherdelta.ForkDeltaClient()
+```
+
 ## Documentation
 
 [Documentation](./doc/README.md)
