@@ -9,6 +9,7 @@ This was originally a fork of [this client](https://github.com/tomvanbraeckel/et
 ## Dependencies
 
 - gcc
+- git
 - Python 3.5+
 
 Install via pip
