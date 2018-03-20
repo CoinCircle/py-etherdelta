@@ -483,7 +483,7 @@ class Client:
         return result
 
 
-    def withdrawToken(self, tokenaddress, amount, user_private_key):
+    def withdraw_token(self, tokenaddress, amount, user_private_key):
         """
         Invokes on-chain withdraw tokens. Only apply for 18 decimal tokens
         :param tokenaddress: withdraw contract address
@@ -520,7 +520,7 @@ class Client:
         }
         return self.__send_transaction("withdraw", kwargs, user_private_key)
 
-    def depositToken(self, tokenaddress, amount, user_private_key):
+    def deposit_token(self, tokenaddress, amount, user_private_key):
 
         approved, nonce = self.approveDeposit(tokenaddress, amount, user_private_key)
 
@@ -552,7 +552,7 @@ class Client:
         }
         return result
 
-    def approveDeposit(self, tokenaddress, amount, user_private_key):
+    def approve_deposit(self, tokenaddress, amount, user_private_key):
         global web3, addressEtherDelta
         maxGas = 250000
         gasPriceWei = 4000000000    # 1 Gwei

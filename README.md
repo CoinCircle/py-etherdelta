@@ -211,6 +211,14 @@ tx = client.trade(order, eth_amount, priv_key)
 print(tx)
 ```
 
+Other methods available
+
+- withdraw()
+- withdraw_token()
+- deposit()
+- deposit_token()
+- approve_deposit()
+
 ## Development
 
 Install Web3.py
