@@ -43,7 +43,7 @@ orders = client.get_orderbook(token_addr)
 print(orders)
 ```
 
-[ForkDelta](https://forkdelta.github.io/) client
+A [ForkDelta](https://forkdelta.github.io/) client is also available
 
 ```python
 import etherdelta
@@ -53,8 +53,6 @@ client = etherdelta.ForkDeltaClient()
 ```
 
 ## Documentation
-
-[Documentation](./doc/README.md)
 
 ### Examples
 
