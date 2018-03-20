@@ -14,7 +14,7 @@ with open(path.join(pwd, 'README.md'), encoding='utf-8') as f:
 setup(
     name = 'etherdelta',
     packages = ['etherdelta'],
-    version = '0.0.16',
+    version = '0.0.17',
     url = 'https://github.com/miguelmota/py-etherdelta',
     download_url = 'https://github.com/miguelmota/py-etherdelta/archive/master.zip',
     author = 'Miguel Mota <hello@miguelmota.com>',
