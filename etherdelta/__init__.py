@@ -18,6 +18,7 @@ from collections import OrderedDict
 from web3.utils.abi import map_abi_data
 from eth_utils import add_0x_prefix, remove_0x_prefix
 from web3.utils.encoding import hex_encode_abi_type
+from decimal import Decimal
 
 # etherdelta_2's contract address
 addressEtherDelta = '0x8d12A197cB00D4747a1fe03395095ce2A5CC6819'
@@ -236,8 +237,8 @@ class Client:
         order = self.get_order(token_addr, order_id)
         if order == None:
             return None
-        amountGet = int('{:.0f}'.format(float(order['amountGet'])))
-        amountGive = int('{:.0f}'.format(float(order['amountGive'])))
+        amountGet = int('{:.0f}'.format(Decimal(order['amountGet'])))
+        amountGive = int('{:.0f}'.format(Decimal(order['amountGive'])))
         tokenGet = Web3.toChecksumAddress(order['tokenGet'])
         tokenGive = Web3.toChecksumAddress(order['tokenGive'])
         expires = int(order['expires'])
@@ -263,8 +264,8 @@ class Client:
         order = self.get_order(token_addr, order_id)
         if order == None:
             return None
-        amountGet = int('{:.0f}'.format(float(order['amountGet'])))
-        amountGive = int('{:.0f}'.format(float(order['amountGive'])))
+        amountGet = int('{:.0f}'.format(Decimal(order['amountGet'])))
+        amountGive = int('{:.0f}'.format(Decimal(order['amountGive'])))
         tokenGet = Web3.toChecksumAddress(order['tokenGet'])
         tokenGive = Web3.toChecksumAddress(order['tokenGive'])
         expires = int(order['expires'])
@@ -452,9 +453,9 @@ class Client:
         # trade function arguments
         kwargs = {
             'tokenGet' : Web3.toChecksumAddress(order['tokenGet']),
-            'amountGet' : int(float(order['amountGet'])),
+            'amountGet' : int(Decimal(order['amountGet'])),
             'tokenGive' : Web3.toChecksumAddress(order['tokenGive']),
-            'amountGive' : int(float(order['amountGive'])),
+            'amountGive' : int(Decimal(order['amountGive'])),
             'expires' : int(order['expires']),
             'nonce' : int(order['nonce']),
             'user' : Web3.toChecksumAddress(order['user']),
@@ -502,9 +503,9 @@ class Client:
         # trade function arguments
         kwargs = {
             'tokenGet' : Web3.toChecksumAddress(order['tokenGet']),
-            'amountGet' : int(float(order['amountGet'])),
+            'amountGet' : int(Decimal(order['amountGet'])),
             'tokenGive' : Web3.toChecksumAddress(order['tokenGive']),
-            'amountGive' : int(float(order['amountGive'])),
+            'amountGive' : int(Decimal(order['amountGive'])),
             'expires' : int(order['expires']),
             'nonce' : int(order['nonce']),
             'v' : order['v'],
