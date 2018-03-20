@@ -8,13 +8,13 @@ from os import path
 pwd = path.abspath(path.dirname(__file__))
 
 # Get the long description from the relevant file
-with open(path.join(pwd, 'README.md'), encoding='utf-8') as f:
+with open(path.join(pwd, 'README'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
     name = 'etherdelta',
     packages = ['etherdelta'],
-    version = '0.0.17',
+    version = '0.0.18',
     url = 'https://github.com/miguelmota/py-etherdelta',
     download_url = 'https://github.com/miguelmota/py-etherdelta/archive/master.zip',
     author = 'Miguel Mota <hello@miguelmota.com>',
