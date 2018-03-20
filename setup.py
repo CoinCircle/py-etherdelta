@@ -14,7 +14,7 @@ with open(path.join(pwd, 'README'), encoding='utf-8') as f:
 setup(
     name = 'etherdelta',
     packages = ['etherdelta'],
-    version = '0.0.21',
+    version = '0.0.22',
     url = 'https://github.com/miguelmota/py-etherdelta',
     download_url = 'https://github.com/miguelmota/py-etherdelta/archive/master.zip',
     author = 'Miguel Mota <hello@miguelmota.com>',
@@ -31,12 +31,11 @@ setup(
         ],
     },
     dependency_links=[
-        'git+ssh://github.com/ethereum/web3.py.git#egg=web3-4.0.0-beta.9'
+        'git+ssh://github.com/ethereum/web3.py.git@307dc87#egg=web3-4.0.0-beta.11'
     ],
     install_requires=[
-        'web3==4.0.0-beta.9',
-        'socketIO-client-2==0.7.5',
-        'eth_utils==1.0.0b1',
+        'web3==4.0.0-beta.11',
+        'eth_utils==1.0.1',
         'websocket_client==0.46.0'
     ]
 )
