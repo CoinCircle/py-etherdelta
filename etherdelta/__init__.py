@@ -481,6 +481,141 @@ class Client:
         print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
         return result
 
+
+    def withdrawToken(self, tokenaddress, amount, user_private_key):
+        """
+        Invokes on-chain withdraw tokens. Only apply for 18 decimal tokens
+        :param tokenaddress: withdraw contract address
+        :type order: string
+        :param amount: withdraw token amount
+        :type amount: float
+        :param user_private_key: user private key
+        :type user_private_key: string
+        :return: tx
+        :rtype: object
+        """
+
+        amount_in_wei = Web3.toWei(amount, 'ether')
+        kwargs = {
+            'token' : Web3.toChecksumAddress(tokenaddress),
+            'amount' : int(Decimal(amount_in_wei)),
+        }
+        self.__send_transaction(self, "withdrawToken", kwargs, user_private_key)
+
+    def withdraw(self, amount, user_private_key):
+        """
+        Invokes on-chain withdraw ether
+        :param amount: withdraw ether amount
+        :type amount: float
+        :param user_private_key: user private key
+        :type user_private_key: string
+        :return: tx
+        :rtype: object
+        """
+
+        amount_in_wei = Web3.toWei(amount, 'ether')
+        kwargs = {
+            'amount' : int(Decimal(amount_in_wei)),
+        }
+        return self.__send_transaction("withdraw", kwargs, user_private_key)
+
+    def depositToken(self, tokenaddress, amount, user_private_key):
+
+        approved, nonce = self.approveDeposit(tokenaddress, amount, user_private_key)
+
+        amount_in_wei = Web3.toWei(amount, 'ether')
+        kwargs = {
+            'token' : Web3.toChecksumAddress(tokenaddress),
+            'amount' : int(Decimal(amount_in_wei)),
+        }
+
+        global web3, addressEtherDelta
+        maxGas = 250000
+        gasPriceWei = 4000000000    # 1 Gwei
+
+        userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
+        # Bail if there's no private key
+        if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
+        # Build binary representation of the function call with arguments
+        abidata = self.contractEtherDelta.encodeABI("depositToken", kwargs=kwargs)
+        transaction = { 'to': addressEtherDelta, 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'data': abidata, 'nonce': nonce + 1, 'chainId': 1}
+        print(transaction)
+        signed = w3.eth.account.signTransaction(transaction, user_private_key)
+        depositresult = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
+        print("Transaction returned: " + str(depositresult))
+        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(depositresult))
+
+        result = {
+            "approve": approved,
+            "deposit": depositresult
+        }
+        return result
+
+    def approveDeposit(self, tokenaddress, amount, user_private_key):
+        global web3, addressEtherDelta
+        maxGas = 250000
+        gasPriceWei = 4000000000    # 1 Gwei
+
+        amount_in_wei = Web3.toWei(amount, 'ether')
+        kwargs = {
+            '_spender' : Web3.toChecksumAddress(addressEtherDelta),
+            '_value' : int(Decimal(amount_in_wei)),
+        }
+
+        userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
+        # Bail if there's no private key
+        if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
+        # Build binary representation of the function call with arguments
+        token_contract = w3.eth.contract(address=Web3.toChecksumAddress(tokenaddress), abi=self.token_abi)
+        abidata = token_contract.encodeABI("approve", kwargs=kwargs)
+        nonce = w3.eth.getTransactionCount(userAccount)
+        transaction = { 'to': Web3.toChecksumAddress(tokenaddress), 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'data': abidata, 'nonce': nonce, 'chainId': 1}
+        print(transaction)
+        signed = w3.eth.account.signTransaction(transaction, user_private_key)
+        result = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
+        print("Transaction returned: " + str(result))
+        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
+        return result, nonce
+
+    def __send_transaction(self, func, kwargs, user_private_key):
+        global web3, addressEtherDelta
+        maxGas = 250000
+        gasPriceWei = 4000000000    # 1 Gwei
+
+        userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
+        # Bail if there's no private key
+        if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
+        # Build binary representation of the function call with arguments
+        abidata = self.contractEtherDelta.encodeABI(func, kwargs=kwargs)
+        nonce = w3.eth.getTransactionCount(userAccount)
+        transaction = { 'to': addressEtherDelta, 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'data': abidata, 'nonce': nonce, 'chainId': 1}
+        print(transaction)
+        signed = w3.eth.account.signTransaction(transaction, user_private_key)
+        result = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
+        print("Transaction returned: " + str(result))
+        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
+        return result
+
+    def deposit(self, amount, user_private_key):
+        global web3, addressEtherDelta
+        maxGas = 250000
+        gasPriceWei = 4000000000    # 1 Gwei
+
+        amount_in_wei = Web3.toWei(amount, 'ether')
+        userAccount = w3.eth.account.privateKeyToAccount(user_private_key).address
+        # Bail if there's no private key
+        if len(user_private_key) != 64: raise ValueError('WARNING: user_private_key must be a hexadecimal string of 64 characters long')
+        # Build binary representation of the function call with arguments
+        abidata = self.contractEtherDelta.encodeABI("deposit")
+        nonce = w3.eth.getTransactionCount(userAccount)
+        transaction = { 'to': addressEtherDelta, 'from': userAccount, 'gas': maxGas, 'gasPrice': gasPriceWei, 'value': amount_in_wei, 'data': abidata, 'nonce': nonce, 'chainId': 1}
+        print(transaction)
+        signed = w3.eth.account.signTransaction(transaction, user_private_key)
+        result = w3.eth.sendRawTransaction(w3.toHex(signed.rawTransaction))
+        print("Transaction returned: " + str(result))
+        print("\nDone! You should see the transaction show up at https://etherscan.io/tx/" + w3.toHex(result))
+        return result
+
     def cancel_order(self, order, user_private_key):
         """
         Cancels an order on-chain
