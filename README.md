@@ -6,9 +6,20 @@ This was originally a fork of [this client](https://github.com/tomvanbraeckel/et
 
 # Install
 
+## Dependencies
+
+- `gcc`
+
+Install via pip
+
 ```bash
 pip3 install etherdelta
+
+# or
+
+python3 -m pip install etherdelta
 ```
+
 or (always latest)
 
 ```
@@ -263,6 +274,11 @@ pip3 install -r requirements.txt
 - Q: Why doesn't `get_token_address()` work?
 
     - A: This method is dependent on the `get_ticker()` method. See above question.
+
+- Q: Help! I'm getting a bunch of install errors!
+
+    - A: Please report it in the [Issues](https://github.com/miguelmota/py-etherdelta/issues).
+
 
 # Resources
 
