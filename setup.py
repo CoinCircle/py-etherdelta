@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from distutils.core import setup
+from setuptools import setup
 from codecs import open  # To use a consistent encoding
 from os import path
 
@@ -14,7 +14,7 @@ with open(path.join(pwd, 'README'), encoding='utf-8') as f:
 setup(
     name = 'etherdelta',
     packages = ['etherdelta'],
-    version = '0.0.19',
+    version = '0.0.20',
     url = 'https://github.com/miguelmota/py-etherdelta',
     download_url = 'https://github.com/miguelmota/py-etherdelta/archive/master.zip',
     author = 'Miguel Mota <hello@miguelmota.com>',
