@@ -1,8 +1,6 @@
 # EtherDelta Python Client
 
-> Python wrapper for interacting with the [EtherDelta](https://etherdelta.com/) API and Smart Contracts.
-
-This was originally a fork of [this client](https://github.com/tomvanbraeckel/etherdeltaclientservice.py).
+> Python client for interacting with the [EtherDelta](https://etherdelta.com/) API and Smart Contracts.
 
 # Install
 
