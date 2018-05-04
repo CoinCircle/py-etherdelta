@@ -23,7 +23,7 @@ python3 -m pip install etherdelta
 or (always latest)
 
 ```
-pip3 install git+git://github.com/miguelmota/py-etherdelta.git
+pip3 install git+git://github.com/coincircle/py-etherdelta.git
 ```
 
 ## Getting Started
@@ -275,7 +275,7 @@ pip3 install -r requirements.txt
 
 - Q: Help! I'm getting a bunch of install errors!
 
-    - A: Please report it in the [Issues](https://github.com/miguelmota/py-etherdelta/issues).
+    - A: Please report it in the [Issues](https://github.com/coincircle/py-etherdelta/issues).
 
 
 # Resources
